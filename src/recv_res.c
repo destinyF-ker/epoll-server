@@ -6,6 +6,7 @@ void *recv_res_main(void *)
     // 这里定义了一个 epoll_event 数组 ep_evt，用来存储 epoll_wait 返回的事件信息。
     struct epoll_event ep_evt[MAX_EPOLL_EVENT];
 
+    // 函数的核心逻辑是一个循环，不断调用 epoll_wait，直到全局变量 g_over 被置为真才退出循环
     while (!g_over)
     {
         // epoll_wait 函数监听文件描述符 g_recv_epoll_fd，
@@ -22,7 +23,6 @@ void *recv_res_main(void *)
         //     printCurrentTime();
         // }
 
-        // 函数的核心逻辑是一个循环，不断调用 epoll_wait，直到全局变量 g_over 被置为真才退出循环
         // for 循环会遍历所有返回的就绪事件，并判断是否是读事件（EPOLLIN）。读事件表示文件描述符有数据可读。
         for (int i = 0; i < ready_num; i++)
         { /*循环处理每个就绪的事件*/
