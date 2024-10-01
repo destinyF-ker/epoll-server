@@ -1,0 +1,112 @@
+[gd_scene load_steps=11 format=3 uid="uid://bnrnojlaysvom"]
+
+[ext_resource type="PackedScene" uid="uid://bewmk3g35qxuh" path="res://GUI/MainPageUI.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://ccpv61rf1ex5o" path="res://Enemy/Mob.tscn" id="2"]
+[ext_resource type="Script" path="res://Game.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://b2dcw5wt6rtiu" path="res://Player/Player.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://km8uxlhrcnh8" path="res://GUI/RestartInterface.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://dgepp014cmhs5" path="res://GUI/ResultPopup.tscn" id="6"]
+
+[sub_resource type="BoxShape3D" id="1"]
+size = Vector3(60, 2, 60)
+
+[sub_resource type="BoxMesh" id="2"]
+size = Vector3(60, 2, 60)
+
+[sub_resource type="CylinderMesh" id="3"]
+
+[sub_resource type="Curve3D" id="5"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -27.9357, 0, -27.9357, 0, 0, 0, 0, 0, 0, 28.2656, 0, -28.0017, 0, 0, 0, 0, 0, 0, 28.0017, 0, 27.9357, 0, 0, 0, 0, 0, 0, -27.9357, 0, 28.0677, 0, 0, 0, 0, 0, 0, -27.9357, 0, -27.9357),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[node name="Game" type="Node"]
+script = ExtResource("3")
+MobNode = ExtResource("2")
+PlayerNode = ExtResource("4")
+
+[node name="Groud" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.10695, 0)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Groud"]
+shape = SubResource("1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Groud"]
+mesh = SubResource("2")
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="Players" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.908355, -0.255764, 0.330872, -0.194416, 0.442226, 0.875579, -0.370261, -0.859663, 0.351973, 0.0184193, 18.7594, 7.27831)
+light_energy = 2.059
+light_indirect_energy = 2.529
+light_volumetric_fog_energy = 2.647
+light_angular_distance = 4.36
+shadow_enabled = true
+shadow_reverse_cull_face = true
+
+[node name="CameraPivot" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 30)
+projection = 1
+size = 27.0
+
+[node name="Cylinders" type="Node3D" parent="."]
+
+[node name="MeshInstance_tl" type="MeshInstance3D" parent="Cylinders"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 1.013, -28)
+mesh = SubResource("3")
+
+[node name="MeshInstance_tr" type="MeshInstance3D" parent="Cylinders"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 1.013, -28)
+mesh = SubResource("3")
+
+[node name="MeshInstance_br" type="MeshInstance3D" parent="Cylinders"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 1.013, 28)
+mesh = SubResource("3")
+
+[node name="MeshInstance_bl" type="MeshInstance3D" parent="Cylinders"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 1.013, 28)
+mesh = SubResource("3")
+
+[node name="SpawnPath" type="Path3D" parent="."]
+curve = SubResource("5")
+
+[node name="SpawnLocation" type="PathFollow3D" parent="SpawnPath"]
+transform = Transform3D(0.00117452, 0, -0.999998, 0, 1, 0, 0.999998, 0, 0.00117452, -27.9357, 0, -27.9357)
+
+[node name="MobTimer" type="Timer" parent="."]
+wait_time = 0.3
+autostart = true
+
+[node name="ByteArraySendTimer" type="Timer" parent="."]
+wait_time = 0.05
+autostart = true
+
+[node name="ReSpawnTimer" type="Timer" parent="."]
+
+[node name="MainPage" parent="." instance=ExtResource("1")]
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RestartInterface" parent="." instance=ExtResource("5")]
+visible = false
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ResultPopup" parent="." instance=ExtResource("6")]
+visible = false
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
+[connection signal="offline" from="MainPage" to="." method="_on_MainPageUI_offline"]
+[connection signal="online" from="MainPage" to="." method="_on_MainPageUI_online"]

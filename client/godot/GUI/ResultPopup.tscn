@@ -1,0 +1,115 @@
+[gd_scene load_steps=7 format=3 uid="uid://dgepp014cmhs5"]
+
+[ext_resource type="FontFile" uid="uid://bvlcg00nw25h6" path="res://fonts/Montserrat-Medium.ttf" id="1"]
+[ext_resource type="FontFile" uid="uid://8dimkhekf4j6" path="res://fonts/Xolonium-Regular.ttf" id="2"]
+[ext_resource type="Script" path="res://GUI/ResultPopup.gd" id="3"]
+
+[sub_resource type="FontFile" id="1"]
+fallbacks = Array[Font]([ExtResource("2"), ExtResource("2")])
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+
+[sub_resource type="FontFile" id="2"]
+fallbacks = Array[Font]([ExtResource("1"), ExtResource("1")])
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+
+[sub_resource type="FontFile" id="3"]
+fallbacks = Array[Font]([ExtResource("1"), ExtResource("1")])
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+
+[node name="ResultPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("3")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.647059, 0.631373, 0.623529, 0.109804)
+
+[node name="Popup" type="Popup" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="Popup"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -282.0
+offset_top = -175.0
+offset_right = 282.0
+offset_bottom = 175.0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Popup/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 74
+
+[node name="LabelTitle" type="Label" parent="Popup/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.866667, 0, 1)
+theme_override_fonts/font = SubResource("1")
+text = "Connecting……"
+
+[node name="CenterContainer" type="CenterContainer" parent="Popup/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="Popup/MarginContainer/VBoxContainer/CenterContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("2")
+text = "Waiting for
+UUID from server……"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Popup/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
+[node name="ButtonStay" type="Button" parent="Popup/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = SubResource("3")
+text = "Stay"
+icon_alignment = 1
+
+[node name="ButtonBack" type="Button" parent="Popup/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.0705882, 0.0705882, 1)
+theme_override_fonts/font = SubResource("3")
+text = "Back to Main"
+
+[connection signal="pressed" from="Popup/MarginContainer/VBoxContainer/HBoxContainer/ButtonStay" to="." method="_on_ButtonStay_pressed"]
+[connection signal="pressed" from="Popup/MarginContainer/VBoxContainer/HBoxContainer/ButtonBack" to="." method="_on_ButtonBack_pressed"]
